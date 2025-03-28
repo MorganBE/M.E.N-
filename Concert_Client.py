@@ -51,7 +51,7 @@ if __name__ == "__main__":
             if genre_menu_choice in genres:
                 genre = genres[genre_menu_choice]
                 artist_menu_choice = artist_menu(genre)
-                artist = {"1 ": "Artist A", "2 ": "Artist B"}
+                artist = {"1": "Option", "2": "Option"}
                 if artist_menu_choice in artist:
                     artist = artist[artist_menu_choice]
                     num_tickets = input(f"Enter the number of tickets for {artist}: ")
