@@ -23,9 +23,10 @@ def genre_menu():
 
 def artist_menu(genre):
     print(f"\n Artist available in {genre}")
-    print("1. Artist")
-    print("2. Artist")
-    choice = input("Enter the number matching the artist: ")
+    print("Option 1")
+    print("Option 2")
+    choice = input("Enter the number associated with your option: ")
+    return choice
 
 
 if __name__ == "__main__":
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 
         if choice == '1':
             genre_menu_choice = genre_menu()
-            genres = {"1 ": "Hip Hop", "2 ": "R&B", "3 ": "Pop", "4 ": "Rock", "5 ": "Indie"}
+            genres = {"1": "Hip Hop", "2": "R&B", "3": "Pop", "4": "Rock", "5": "Indie"}
             if genre_menu_choice in genres:
                 genre = genres[genre_menu_choice]
                 artist_menu_choice = artist_menu(genre)
