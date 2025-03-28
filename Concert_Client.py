@@ -38,8 +38,8 @@ if __name__ == "__main__":
         print("Through our private chat channel you will be able to choose your favorite artist through their "
               "infamous genre's.")
         print("1. What genre ticket would you like to purchase?")
-        print("2. Add or Delete Ticket")
-        print("3. Lookup Concert Info")
+        print("2. Would you like to add or delete Ticket?")
+        print("3. Would you like to lookup or update concert information?")
         print("4. Exit")
 
         choice = input("Enter your choice: ")
