@@ -1,5 +1,6 @@
 import socket
 import sqlite3
+
 """ 
 Name: Morgan E. Brown, Niy'Asia Williams, Erin C. Vickers
 Instructor: Peker, Yesem K
@@ -8,94 +9,75 @@ Date: 26 March 2025
 Version: 1.0
 """
 
-#def add_user(input_firstname, input_lastname, input_address,  input_balance,):
-#"""Add a new user with their address to the database."""
-#conn = sqlite3.connect('user_data.db')
-#cursor = conn.cursor()
-#try:
-#cursor.execute('INSERT INTO users (first_name, last_name, address, balance) VALUES (?, ?, ?, ?)', (input_firstname,input_lastname, input_address, input_balance))
-#conn.commit()
-#print(f"User '{input_firstname} {input_lastname}' added successfully.")
-#except sqlite3.IntegrityError:
-#print(f"User '{input_firstname} {input_lastname}' already exists.")
-#conn.close()
 
-#def get_all_users():
-#"""Retrieve all users and their addresses from the database."""
-#conn = sqlite3.connect('user_data.db')
-#cursor = conn.cursor()
-#cursor.execute('SELECT first_name, last_name, address, balance FROM users')
-#users = cursor.fetchall()
-#conn.close()
-#return users
+def genre_menu():
+    print("\n Please choose a Genre: ")
+    print("1. Hip Hop")
+    print("2. R&B")
+    print("3. Pop")
+    print("4. Rock")
+    print("5. Indie")
+    choice = input("Enter the number matching your choice: ")
+    return choice
 
-#def get_user(input_firstname):
-#"""Retrieve user with first name."""
-#conn = sqlite3.connect('user_data.db')
-#cursor = conn.cursor()
-#cursor.execute('SELECT * FROM users WHERE first_name = ?', (input_firstname,))
-##cursor.execute('SELECT * FROM users WHERE name = ?', (input_firstname,))
-#user = cursor.fetchall()
-#conn.close()
-#return user
 
-#def get_users_by_last_name(input_lastname):
-#"""Retrieve user with last name.
-#I decided to include a last name search query option"""
-#conn = sqlite3.connect('user_data.db')
-#cursor = conn.cursor()
-#cursor.execute('SELECT * FROM users WHERE last_name = ?', (input_lastname,))
-#users = cursor.fetchall()
-#conn.close()
-#return users
-# ^^ Above are functions we can use to create our own ^^
-# Main Program
+def artist_menu(genre):
+    print(f"\n Artist available in {genre}")
+    print("1. Artist")
+    print("2. Artist")
+    choice = input("Enter the number matching the artist: ")
+
+
 if __name__ == "__main__":
-    create_table()
+
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(('localhost', 12345))
 
     while True:
         print("\nWelcome to M.E.N concert ticketing purchasing menu!")
         print("Through our private chat channel you will be able to choose your favorite artist through their "
               "infamous genre's.")
-        print("1. Genre")
+        print("1. What genre ticket would you like to purchase?")
         print("2. Add or Delete Ticket")
         print("3. Lookup Concert Info")
-        print("5. Exit")
+        print("4. Exit")
 
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            customer_firstname = input("Enter the first name: ")
-            customer_lastname = input("Enter the last name: ")
-            customer_address = input("Enter the address: ")
-            customer_balance=input("Enter the balance: ")
-            #add_user(customer_firstname, customer_lastname, customer_address, customer_balance)
-        elif choice == '2':
-            #users = get_all_users()
-            if users:
-               # print("\nUser Information:")
-               # for first_name, last_name, address, balance in users: #can use any variable instead of user, address, balance
-                   # print(first_name, last_name, address, balance) #us eteh same variable set you used in previous line
+            genre_menu_choice = genre_menu()
+            genres = {"1 ": "Hip Hop", "2 ": "R&B", "3 ": "Pop", "4 ": "Rock", "5 ": "Indie"}
+            if genre_menu_choice in genres:
+                genre = genres[genre_menu_choice]
+                artist_menu_choice = artist_menu(genre)
+                artist = {"1 ": "Artist A", "2 ": "Artist B"}
+                if artist_menu_choice in artist:
+                    artist = artist[artist_menu_choice]
+                    num_tickets = input(f"Enter the number of tickets for {artist}: ")
+                    request = f"purchase_ticket,{genre},{artist},{num_tickets}"
+                    client_socket.send(request.encode('utf-8'))
+                    response = client_socket.recv(1024).decode('utf-8')
+                    print(response)
+                else:
+                    print("Invalid artist selection.")
             else:
-                #print("\nNo users found.")
-        elif choice == '3':
-            #customer_name = input("Enter first name: ")
-            #user = get_user(customer_firstname)
-            if user:
-               # print(user)
-            else:
-                print("\nNo users found.")
+                print("Invalid genre selection.")
+
+
+        # elif choice == '2':
+
+        # if :
+
+        # else:
+        # print("")
+        # elif choice == '3':
+
+        # if user:
+        ## print()
+        # else:
+        # print("\nNo users found.")
         elif choice == '4':
-            #customer_lastname = input("Enter last name: ")
-            #users = get_users_by_last_name(customer_lastname)
-            if users:
-               # print(users)
-            else:
-               # print("\nNo users found.")
-        elif choice =='5':
             print("Exiting program. Goodbye!")
             break
         else:
             print("Invalid choice. Please try again.")
-
-
