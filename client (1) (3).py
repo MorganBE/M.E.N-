@@ -1,6 +1,7 @@
 import socket
 import ssl
 def client_main():
+    #testing
     """
     Initializes and runs a secure chat client using SSL.
     """
