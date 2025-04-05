@@ -1,4 +1,5 @@
 import socket
+import ssl
 import sqlite3
 
 """ 
@@ -29,10 +30,19 @@ def artist_menu(genre):
     return choice
 
 
-if __name__ == "__main__":
+def client_main():
+    host = '127.0.0.1'
+    port = 12345
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('localhost', 12345))
+    secure_socket = ssl.wrap_socket(
+        client_socket,
+        certfile="client_cert.pem",
+        keyfile="client_key.pem",
+        ssl_version=ssl.PROTOCOL_TLS
+    )
+    
+    client_socket.connect((host, port))
 
     while True:
         print("\nWelcome to M.E.N concert ticketing purchasing menu!")
@@ -82,3 +92,5 @@ if __name__ == "__main__":
             break
         else:
             print("Invalid choice. Please try again.")
+if __name__ == "__main__":
+    client_main()
