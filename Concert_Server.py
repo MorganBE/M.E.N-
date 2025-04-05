@@ -189,27 +189,31 @@ def run_server():
     create_table()
     host = '127.0.0.1'
     port = 12345
+    #Updated SSL Certificate code
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain(certfile="server_cert.pem", keyfile="server_key.pem")
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    secure_socket = ssl.wrap_socket(
-        server_socket,
-        server_side=True,
-        certfile="server_cert.pem",
-        keyfile="server_key.pem",
-        ssl_version=ssl.PROTOCOL_TLS
-    )
+    #Old SSL Certificate code
+    #secure_socket = ssl.wrap_socket(
+        #server_socket,
+        #server_side=True,
+        #certfile="server_cert.pem",
+        #keyfile="server_key.pem",
+        #ssl_version=ssl.PROTOCOL_TLS
+    #)
 
-    try:
-        secure_socket.bind((host, port))
-    except OSError as e:
-        print(f"Port {port} is already in use. Please free it before running again.")
-        return
+    #try:
+    server_socket.bind((host, port))
+    #except OSError as e:
+        #print(f"Port {port} is already in use. Please free it before running again.")
+        #return
 
-    secure_socket.listen(5)
+    server_socket.listen(5)
     print(f"Secure server started on {host}:{port}")
 
     while True:
-        conn, addr = secure_socket.accept()
+        conn, addr = server_socket.accept()
         threading.Thread(target=handle_client, args=(conn, addr)).start()
 
 if __name__ == "__main__":
