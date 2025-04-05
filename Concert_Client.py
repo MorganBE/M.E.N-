@@ -41,15 +41,16 @@ def client_main():
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     secure_socket = context.wrap_socket(client_socket, server_hostname=host)
-    #Old SSL certificate code
-    #secure_socket = ssl.wrap_socket(
-        #client_socket,
-        #certfile="client_cert.pem",
-        #keyfile="client_key.pem",
-        #ssl_version=ssl.PROTOCOL_TLS
-    #)
-    
-    secure_socket.connect((host, port))
+
+    try:
+        secure_socket.connect((host, port))
+        print("Connection Successful!")
+    except ssl.SSLError as e:
+        print(f"SSL error: {e}")
+    except Exception as e:
+        print(f"Unexpected error: [{e}]")
+    finally:
+        secure_socket.close()
 
     while True:
         print("\nWelcome to M.E.N concert ticketing purchasing menu!")

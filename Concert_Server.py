@@ -117,7 +117,8 @@ def handle_client(conn, addr):
             if not data:
                 break
             print(f"[Client]: {data}")
-
+            response = "We've received your message!"
+            conn.send(response.encode('utf-8'))
             parts = data.strip().split(',')
             command = parts[0]
 
@@ -214,6 +215,7 @@ def run_server():
 
     while True:
         conn, addr = server_socket.accept()
+        secure_conn = context.wrap_socket(conn, server_side=True)
         threading.Thread(target=handle_client, args=(conn, addr)).start()
 
 if __name__ == "__main__":
