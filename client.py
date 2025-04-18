@@ -113,9 +113,14 @@ def purchase_ticket_flow(wrapped_socket):
         if 0 <= artist_index < len(artist_list):
             full_line = artist_list[artist_index]
             artist = full_line.split(" ($")[0]
-
+            price_str = full_line.split(" ($")[1].replace(")", "")
+            ticket_price = float(price_str)
+			
             quantity = int(input(f"Enter the number of tickets for {artist}: "))
 
+            total_price = ticket_price * quantity
+            print(f"Total price: ${total_price:.2f}")
+			
             print("\nPlease enter your customer info:")
             first, last, email = get_valid_user_info()
             payment = get_valid_card_info()
